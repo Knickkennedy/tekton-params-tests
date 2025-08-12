@@ -28,4 +28,4 @@ spec:
         - name: name
           value: $(params.name)
         - name: age
-          type: $(params.age)
+          value: $(params.age)
