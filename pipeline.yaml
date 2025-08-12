@@ -26,6 +26,6 @@ spec:
               echo "Your age is: $(params.age)"
       params:
         - name: name
-          type: string
+          value: $(params.name)
         - name: age
-          type: string
+          type: $(params.age)
