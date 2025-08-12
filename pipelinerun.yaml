@@ -8,6 +8,6 @@ spec:
     name: echo-pipeline
   params:
     - name: name
-      value: "{{ .name }}"
+      value: "${name}"
     - name: age
-      value: "{{ .age }}"
+      value: "${age}"
