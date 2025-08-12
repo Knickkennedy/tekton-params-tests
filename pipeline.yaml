@@ -1,0 +1,31 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: echo-pipeline
+spec:
+  params:
+    - name: name
+      type: string
+    - name: age
+      type: string
+  tasks:
+    - name: echo-params
+      taskSpec:
+        params:
+          - name: name
+            type: string
+          - name: age
+            type: string
+        steps:
+          - name: echo
+            image: docker.io/knickkennedy/k8s-tools@sha256:542002707d909d25b3ed05654f77c514a507b1fc916ad3d44adb5a672adb4299
+            script: |
+              #!/bin/sh
+
+              echo "Your name is: $(params.name)"
+              echo "Your age is: $(params.age)"
+      params:
+        - name: name
+          type: string
+        - name: age
+          type: string

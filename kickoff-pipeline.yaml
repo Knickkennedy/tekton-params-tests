@@ -1,0 +1,29 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: clone-pipeline
+spec:
+  params:
+    - name: git-url
+      type: string
+  tasks:
+    - name: clone-git
+      taskSpec:
+        params:
+          - name: git-url
+            type: string
+        steps:
+          - name: clone
+            image: docker.io/knickkennedy/k8s-tools@sha256:542002707d909d25b3ed05654f77c514a507b1fc916ad3d44adb5a672adb4299
+            script: |
+              #!/bin/sh
+
+              sudo apt-get install gettext
+
+              git clone $(params.git-url) repo
+              eval $(yq e '. | to_entries | .[] | "export " + .key + "=" + .value' repo/params.yaml)
+              kubectl apply -f repo/pipeline.yaml
+              envsubst < repo/pipelinerun.yaml | kubectl apply -f -
+      params:
+        - name: git-url
+          value: $(params.git-url)
