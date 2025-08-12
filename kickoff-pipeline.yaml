@@ -14,11 +14,9 @@ spec:
             type: string
         steps:
           - name: clone
-            image: docker.io/knickkennedy/k8s-tools@sha256:542002707d909d25b3ed05654f77c514a507b1fc916ad3d44adb5a672adb4299
+            image: docker.io/knickkennedy/k8s-tools@sha256:4403945ccbe3c3cd81d3b08d5c79a6a9bd263a798f0edee57b50740f7fef503e
             script: |
               #!/bin/sh
-
-              sudo apt-get install gettext
 
               git clone $(params.git-url) repo
               eval $(yq e '. | to_entries | .[] | "export " + .key + "=" + .value' repo/params.yaml)
